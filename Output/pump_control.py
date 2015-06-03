@@ -32,6 +32,7 @@ import sys
 import argparse
 import time
 import math
+import RPi.GPIO as gpio
 
 class Pump:
     def __init__(self, pitch, stepAngle, microsteps, syringeID):
@@ -43,7 +44,7 @@ class Pump:
 	print "mm_per_pulse = %s" % self.mm_per_pulse
 	self.ml_per_pulse = math.pi * math.pow(float(syringeID) / 2, 2) * float(self.mm_per_pulse) / 1000 # <- converts mm^3 to mL
 	print "ml_per_pulse = %s" % self.ml_per_pulse
-    def flow(self, amount, seconds):
+    def flow(self, amount, seconds, DIR, STEP):
 	pulses = abs(int(float(amount) / self.ml_per_pulse))
 	print "pulses = %s" % pulses 
 	print "seconds = %s" % seconds
@@ -59,7 +60,7 @@ class Pump:
     	    time.sleep(wait_time)
             gpio.output(STEP, gpio.LOW)
     	    time.sleep(wait_time)
-    def dispense_slow(self, amount):
+    def dispense_slow(self, amount, DIR, STEP):
 	pulses = abs(int(float(amount) / self.ml_per_pulse))
 	print "pulses = %s" % pulses 
 	wait_time = 0.0005

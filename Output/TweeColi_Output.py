@@ -2,7 +2,7 @@ import ast
 import Parse_Tweet
 from pump_control import Pump
 from time import sleep
-import RPi.GPIO as GPIO
+import RPi.GPIO as gpio
 from twython import TwythonStreamer
 
 # Keys for @BUBacteria
@@ -75,4 +75,4 @@ try:
 	# User id below is @bubacteria
 	#stream.statuses.filter(follow=2860939569)
 except KeyboardInterrupt:
-	GPIO.cleanup()
+	gpio.cleanup()
