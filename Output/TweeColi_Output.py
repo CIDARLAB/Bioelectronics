@@ -22,7 +22,7 @@ STEP = 13
 
 gpio.setmode(gpio.BOARD)
 gpio.setup(STEP, gpio.OUT, initial = gpio.HIGH)
-gpio.setup(DIR, gpio.OUT, intital = gpio.HIGH)
+gpio.setup(DIR, gpio.OUT, initial = gpio.HIGH)
 
 pitch = 0.8
 stepAngle = 1.8
