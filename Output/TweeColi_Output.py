@@ -59,9 +59,9 @@ try:
 					print "No Ara update"
 				if (aTc_state ^ Ara_state):
 					p.dispense_slow(1)
-					Print "Dispensing"
+					print "Dispensing"
 				else:
-					Print (aTc_state ^ Ara_state)
+					print (aTc_state ^ Ara_state)
 					
 		def on_error(self, status_code, data):
 			print status_code
