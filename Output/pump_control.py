@@ -19,35 +19,19 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# 2 June 2015
 # Original file modified by arolfe@bu.edu to edit out the web interface 
 # with the intention of using it as a module for python scripts
+
+# 3 June 2015
+# ryan.jay.silva@gmail.com added a flow and speed method and removed
+# unnecessary methods and pin assignments
+
 
 import sys
 import argparse
 import time
 import math
-
-try:
-    import RPi.GPIO as gpio
-    gpio.setwarnings(False)
-    gpio.setmode(gpio.BOARD)
-except:
-    sys.stderr.write('Warning: using emulation because RPi.GPIO could not be used\n')
-    class gpio:
-        LOW = 0
-        HIGH = 1
-        IN = 0
-        OUT = 1
-        @classmethod
-        def output(cls, pin, state):
-            pass
-        @classmethod
-        def setup(cls, pin, type, initial):
-            pass
-DIR = 11
-STEP = 13
-gpio.setup(STEP, gpio.OUT, initial = gpio.HIGH)
-gpio.setup(DIR, gpio.OUT, initial = gpio.HIGH)
 
 class Pump:
     def __init__(self, pitch, stepAngle, microsteps, syringeID):
@@ -87,17 +71,3 @@ class Pump:
     	    time.sleep(wait_time)
             gpio.output(STEP, gpio.LOW)
     	    time.sleep(wait_time)
-
-if __name__ == "__main__":
-    a = argparse.ArgumentParser()
-    a.add_argument('--pitch', help = 'lead screw pitch(.8 mm; M5)', default = .8, type = float)
-    a.add_argument('--stepAngle', help = 'angle, in degrees, of each motor step', default = 1.8, type = float)
-    a.add_argument('--microsteps', help = 'microstep settings (use 1 for full step)', default = 1, type = float)
-    a.add_argument('--syringeID', help = 'inner diameter of syringe in mm', default = 14.8, type = float)
-    args = a.parse_args()
-
-    p = Pump(args.pitch, args.stepAngle, args.microsteps, args.syringeID)
-try:
-    p.flow(-1,1)
-finally:
-    gpio.cleanup()
