@@ -28,14 +28,15 @@ pitch = 0.8
 stepAngle = 1.8
 microsteps = 1
 syringeID = 14.8
-
-# Initialize variables
-aTc_state = 0
-Ara_state = 0
 p = Pump(pitch, stepAngle, microsteps, syringeID)
 
+# Initialize variables
 try:
 	class MyStreamer(TwythonStreamer):
+		Lac_state = 0
+		Ara_state = 0
+		print "Lac_state = %s" % Lac_state
+		print "Ara_state = %s" % Ara_state
 		def on_success(self, data):
 			if 'text' in data:
 				# Assumed tweet format: chemical state (ex. aTc True)
@@ -43,25 +44,25 @@ try:
 				username = Parse_Tweet.get_username(data)
 				if message['chemical'] == "aTc":
 					if message['state'] == "True":
-						aTc_state = 1
+						self.Lac_state = 1
 					else:
-						aTc_state = 0
-					print aTc_state
+						self.Lac_state = 0
+					print self.Lac_state
 				else:
 					print "no aTc update"
 				if message['chemical'] == "Ara":
 					if message['state'] == "True":
-						Ara_state = 1
+						self.Ara_state = 1
 					else:
-						Ara_state = 0
-					print Ara_state
+						self.Ara_state = 0
+					print self.Ara_state
 				else:
 					print "No Ara update"
-				if (aTc_state ^ Ara_state):
-					p.dispense_slow(1)
+				if (self.Lac_state ^ self.Ara_state):
+					p.dispense_slow(1, DIR, STEP)
 					print "Dispensing"
 				else:
-					print (aTc_state ^ Ara_state)
+					print (self.Lac_state ^ self.Ara_state)
 					
 		def on_error(self, status_code, data):
 			print status_code
