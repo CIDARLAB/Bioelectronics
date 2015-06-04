@@ -79,7 +79,7 @@ try:
 				else:
 					print("No %s update") % chem1Name
 				if (self.chem0 ^ self.chem1):
-					p.dispense_slow(1, DIR, STEP)
+					p.dispense_slow(.1, DIR, STEP)
 					print "Dispensing"
 				else:
 					print (self.chem0 ^ self.chem1)
